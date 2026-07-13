@@ -1,6 +1,13 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { getDb } from '@/lib/db';
+
+// Ensure the SQLite database is created, migrated, and seeded as soon as the
+// server starts handling requests. Importing/calling getDb() here runs once
+// per server process (module-level singleton in lib/db.ts) and guarantees
+// the `products` and `orders` tables exist before any page or API route runs.
+getDb();
 
 const inter = Inter({ subsets: ['latin'] });
 
