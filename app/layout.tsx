@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { getDb } from '@/lib/db';
+import { CartProvider } from '@/lib/CartContext';
+import { CartToggleButton } from '@/components/Cart';
+import Cart from '@/components/Cart';
+import Link from 'next/link';
 
 // Ensure the SQLite database is created, migrated, and seeded as soon as the
 // server starts handling requests. Importing/calling getDb() here runs once
@@ -24,7 +28,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-gray-50 text-gray-900 min-h-screen antialiased`}>
-        <div className="min-h-screen flex flex-col">{children}</div>
+        <CartProvider>
+          <div className="min-h-screen flex flex-col">
+            <header className="sticky top-0 z-30 flex items-center justify-between border-b bg-white px-4 py-3 shadow-sm">
+              <Link href="/" className="text-lg font-bold text-gray-900">
+                PC Parts Shop
+              </Link>
+              <CartToggleButton />
+            </header>
+            {children}
+            <Cart />
+          </div>
+        </CartProvider>
       </body>
     </html>
   );
